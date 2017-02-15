@@ -41,6 +41,167 @@ namespace LuckyTraderLib
             }
         }
 
+        internal int SQLLogIn(string uN, string pW)
+        {
+            sqlCom = new SqlCommand("SELECT Reg_ID, Reg_User, Reg_Pass FROM table_Registries", sqlCon);
+            sqlCon.Open();
+            sqlDA = new SqlDataAdapter(sqlCom);
+            sqlDA.Fill(dt = new DataTable());
+            sqlCon.Close();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                if (row.ItemArray[1].ToString() == uN)
+                {
+                    if (row.ItemArray[2].ToString() == pW)
+                    {
+                        int playerLogID = DoWriteTableLogin((int)row.ItemArray[0], DateTime.Now);
+                        log.WriteLogin("0010", "User-Login erfolgreich");
+                        return playerLogID;
+                    }
+                    else
+                    {
+                        err.WriteErrorLog("0012", "Passwort nicht korrekt");
+                        return 12;
+                    }
+                }
+                else
+                {
+                    err.WriteErrorLog("0011", "Username nicht gefunden");
+                    return 11;
+                }
+            }
+            return 9008;
+        }
+
+        internal DataTable GetStock()
+        {
+            sqlCom = new SqlCommand("SELECT Share_Title, Share_Amount, Share_Buy, Share_Sell FROM table_Stock", sqlCon);
+            sqlDA = new SqlDataAdapter(sqlCom);
+            sqlCon.Open();
+            sqlDA.Fill(dt = new DataTable());
+            sqlCon.Close();
+
+            return dt;
+        }
+
+        internal void SQLLogOut(int login_ID)
+        {
+            //UPDATE NACHSCHLAGEN
+            sqlCom = new SqlCommand("UPDATE table_Logins  SET Log_DateTime_Off = @logout_now WHERE Log_ID = @login_ID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@logout_now", DateTime.Now);
+            sqlCom.Parameters.AddWithValue("@login_ID", login_ID);
+            sqlCon.Open();
+            sqlCom.ExecuteNonQuery();
+            sqlCon.Close();
+        }
+
+        internal void DoAutoUpdateStock()
+        {
+            sqlCom = new SqlCommand("SELECT * FROM table_Stock", sqlCon);
+            sqlDA = new SqlDataAdapter(sqlCom);
+            sqlCon.Open();
+            sqlCom.ExecuteNonQuery();
+            sqlDA.Fill(dt = new DataTable());
+            sqlCon.Close();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Random updateBuy = new Random((int)DateTime.Now.Ticks);
+                int rndBuySeq = updateBuy.Next(1,500);
+                if ((rndBuySeq % 2) == 0)
+                {
+                    UpdatePrice_Auto(row, true);
+                }
+                else
+                {
+                    UpdatePrice_Auto(row, false);
+                }
+            }
+        }
+
+        private void UpdatePrice_Auto(DataRow stock, bool raise)
+        {
+            string shareTitle = stock.ItemArray[1].ToString();
+            double shareBuy = Convert.ToDouble(stock.ItemArray[3]);
+            double shareSell = Convert.ToDouble(stock.ItemArray[4]);
+            int highCounter = Convert.ToInt16(stock.ItemArray[5]);
+            int lowCounter = Convert.ToInt16(stock.ItemArray[6]);
+            Random decValue = new Random();
+            double percValue = decValue.NextDouble() / 100;
+
+            if (raise && highCounter < 5)
+            {
+                shareBuy += shareBuy * percValue;
+                lowCounter--;
+                highCounter++;
+            }
+            else if (raise && lowCounter < 5)
+            {
+                shareBuy -= shareBuy * percValue;
+                highCounter--;
+                lowCounter++;  
+            }
+            else if (!raise && lowCounter < 5)
+            {
+                shareBuy -= shareBuy * percValue;
+                highCounter--;
+                lowCounter++;
+            }
+            else if (!raise && highCounter < 5)
+            {
+                shareBuy += shareBuy * percValue;
+                lowCounter--;
+                highCounter++;
+            }
+            else
+            {
+                highCounter -= 2;
+                lowCounter -= 2;
+            }
+
+            if (highCounter < 0)
+                highCounter = 0;
+            if (lowCounter < 0)
+                lowCounter = 0;
+
+            shareSell = shareBuy * 0.95;
+
+            DoStockTableUpdate(shareTitle, shareBuy, shareSell, highCounter, lowCounter);
+        }
+
+        private void DoStockTableUpdate(string shareTitle, double shareBuy, double shareSell, int highCounter, int lowCounter)
+        {
+            sqlCom = new SqlCommand("UPDATE table_Stock SET Share_Buy = @shareBuy, Share_Sell = @shareSell, Share_Higher = @highCounter, Share_Lower = @lowCounter " + 
+                "WHERE Share_Title = @shareTitle", sqlCon);
+            sqlCom.Parameters.AddWithValue("@shareBuy", shareBuy);
+            sqlCom.Parameters.AddWithValue("@shareSell", shareSell);
+            sqlCom.Parameters.AddWithValue("@highCounter", highCounter);
+            sqlCom.Parameters.AddWithValue("@lowCounter", lowCounter);
+            sqlCom.Parameters.AddWithValue("@shareTitle", shareTitle);
+            sqlCon.Open();
+            sqlCom.ExecuteNonQuery();
+            sqlCon.Close();
+        }
+
+        private int DoWriteTableLogin(int uID, DateTime now)
+        {
+            sqlCom = new SqlCommand("INSERT INTO table_Logins (Log_User_ID, Log_DateTime_On) VALUES (@uID, @now)", sqlCon);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlCom.Parameters.AddWithValue("@now", now);
+            sqlCon.Open();
+            sqlCom.ExecuteNonQuery();
+            sqlCon.Close();
+            sqlCom = new SqlCommand("SELECT Log_ID FROM table_Logins WHERE Log_User_ID = @uID AND Log_DateTime_On = @now", sqlCon);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlCom.Parameters.AddWithValue("@now", now);
+            sqlCon.Open();
+            sqlDA = new SqlDataAdapter(sqlCom);
+            sqlDA.Fill(dt = new DataTable());
+            sqlCon.Close();
+            return Convert.ToInt16(dt.Rows[0].ItemArray[0]);
+        }
+
         public bool DoConnectionTest()
         {
             try
@@ -121,6 +282,8 @@ namespace LuckyTraderLib
                 sqlCom.ExecuteNonQuery();
                 sqlCon.Close();
 
+                PlayerClass pCl = new PlayerClass(UN, FN, LN, Birth);
+
                 log.WriteLogin("0000", "Registrierung von " + UN + " erfolgreich");
                 return 0;
             }
@@ -146,11 +309,6 @@ namespace LuckyTraderLib
                 return true;
             else
                 return false;
-        }
-
-        internal int SQLLog()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -52,6 +53,31 @@ namespace LuckyTraderLib
         int DoRegister(string UN, string PW, string Mail, string FN, string LN, DateTime Birth);
 
         [OperationContract]
-        bool DoLogin(string UN, string PW);
+        int DoLogin(string UN, string PW);
+
+        [OperationContract]
+        void DoLogout(int LogID);
+
+        [OperationContract]
+        List<Stock> CheckStock();
+
+        [OperationContract]  //nur zu Testzwecken freizugeben
+        void AutoUpdateStock();
     }
+
+    [DataContract]
+    public class Stock
+    {
+        [DataMember]
+        public string shareTitle;
+
+        [DataMember]
+        public int shareAmount;
+
+        [DataMember]
+        public decimal shareBuy;
+
+        [DataMember]
+        public decimal shareSell;
+    }   
 }
