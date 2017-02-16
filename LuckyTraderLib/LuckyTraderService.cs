@@ -40,6 +40,7 @@ namespace LuckyTraderLib
         Stock stock;
         List<Stock> stockList = new List<Stock>();
         DataTable dt = new DataTable();
+        ExceptionMessage exM = new ExceptionMessage();
 
         // Abgeschlossen
         public int DoLogin(string UN, string PW)
@@ -57,6 +58,7 @@ namespace LuckyTraderLib
             }
             catch (Exception ex)
             {
+                exM.DoWriteExceptionLog(ex);
                 return login;
             }
         }
@@ -73,7 +75,9 @@ namespace LuckyTraderLib
                 }
             }
             catch (Exception ex)
-            {}
+            {
+                exM.DoWriteExceptionLog(ex);
+            }
         }
 
         // Abgeschlossen
@@ -88,14 +92,16 @@ namespace LuckyTraderLib
                     return register;
                 }
                 else
-                    return 8;         
+                    return 8;
             }
             catch (Exception ex)
             {
+                exM.DoWriteExceptionLog(ex);
                 return register;
             }
         }
 
+        // Abgeschlossen
         public List<Stock> CheckStock()
         {
             SQLClass sqlStock = new SQLClass();
@@ -122,18 +128,64 @@ namespace LuckyTraderLib
             sqlUpdateStock.DoAutoUpdateStock();
         }
 
-            //public void AutoUpdateStock()
-            //{
-            //    Stopwatch timer = new Stopwatch();
-            //    timer.Start();
-            //    if (timer.Elapsed == TimeSpan.FromMinutes(5))
-            //    {
-            //        SQLClass sqlUpdateStock = new SQLClass();
-            //        sqlUpdateStock.DoAutoUpdateStock();
-            //        timer.Restart();
-            //    }
-            //}
-
-
+        // Abgeschlossen
+        public bool ResyncUserData(string UN, string Loc, decimal Cash, decimal Assets)
+        {
+            bool syncResult = false;
+            SQLClass sqlSync = new SQLClass();
+            syncResult = sqlSync.DoResyncUserData(UN, Loc, Cash, Assets);
+            return syncResult;
         }
+
+        // Abgeschlossen
+        public string DoStockTrade(string UN, string ShareTitle, decimal SharePrice, int ShareAmount, string TradeType, int SharePosition)
+        {
+            decimal tradeSum = 0m;
+            bool equalPrice = false;
+
+            SQLClass sqlTradeStock = new SQLClass();
+            equalPrice = CheckSharePrice(ShareTitle, SharePrice, TradeType);
+            if (equalPrice)
+            {
+                tradeSum = sqlTradeStock.DoStockTrade(UN, ShareTitle, SharePrice, ShareAmount, TradeType, SharePosition);
+                return "Handel wurde durchgeführt";
+            }
+            else
+            {
+                CheckStock();
+                return "Handel konnte nicht durchgeführt werden, die Preise wurden aktualisiert";
+            }            
+        }
+
+        private bool CheckSharePrice(string shareTitle, decimal sharePrice, string tradeType)
+        {
+            bool equal = false;
+            SQLClass sqlShare = new SQLClass();
+            equal = sqlShare.CheckPrice(shareTitle, sharePrice, tradeType);
+            if (equal)
+                return true;
+            else
+                return false;
+        }
+
+        public decimal UpdatePlayerAssets(string UN)
+        {
+            decimal assets = 0m;
+            SQLClass sqlUserAssets = new SQLClass();
+            assets = sqlUserAssets.DoAssetsUpdate(UN);
+            return assets;
+        }
+
+        //public void AutoUpdateStock()
+        //{
+        //    Stopwatch timer = new Stopwatch();
+        //    timer.Start();
+        //    if (timer.Elapsed == TimeSpan.FromMinutes(5))
+        //    {
+        //        SQLClass sqlUpdateStock = new SQLClass();
+        //        sqlUpdateStock.DoAutoUpdateStock();
+        //        timer.Restart();
+        //    }
+        //}     
     }
+}

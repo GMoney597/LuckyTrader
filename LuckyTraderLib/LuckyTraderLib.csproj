@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorMessage.cs" />
+    <Compile Include="ExceptionMessage.cs" />
     <Compile Include="ILuckyTrader.cs" />
     <Compile Include="LoginMessage.cs" />
     <Compile Include="PlayerClass.cs" />

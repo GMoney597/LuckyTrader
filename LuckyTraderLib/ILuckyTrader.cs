@@ -63,6 +63,15 @@ namespace LuckyTraderLib
 
         [OperationContract]  //nur zu Testzwecken freizugeben
         void AutoUpdateStock();
+
+        [OperationContract]
+        bool ResyncUserData(string UN, string Loc, decimal Cash, decimal Assets);
+
+        [OperationContract]
+        decimal UpdatePlayerAssets(string UN);
+
+        [OperationContract]
+        string DoStockTrade(string UN, string ShareTitle, decimal SharePrice, int ShareAmount, string TradeType, int SharePosition);
     }
 
     [DataContract]
