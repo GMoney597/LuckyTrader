@@ -175,17 +175,5 @@ namespace LuckyTraderLib
             assets = sqlUserAssets.DoAssetsUpdate(UN);
             return assets;
         }
-
-        //public void AutoUpdateStock()
-        //{
-        //    Stopwatch timer = new Stopwatch();
-        //    timer.Start();
-        //    if (timer.Elapsed == TimeSpan.FromMinutes(5))
-        //    {
-        //        SQLClass sqlUpdateStock = new SQLClass();
-        //        sqlUpdateStock.DoAutoUpdateStock();
-        //        timer.Restart();
-        //    }
-        //}     
     }
 }

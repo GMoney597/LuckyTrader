@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/LuckyTraderLib" />
+  <xs:element name="DoRegister">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PW" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Mail" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="LN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Birth" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoRegisterResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DoRegisterResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoLogin">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PW" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoLoginResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DoLoginResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoLogout">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="LogID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoLogoutResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckStock">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CheckStockResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LuckyTraderLib" minOccurs="0" name="CheckStockResult" nillable="true" type="q1:ArrayOfStock" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResyncUserData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Loc" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Cash" type="xs:decimal" />
+        <xs:element minOccurs="0" name="Assets" type="xs:decimal" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResyncUserDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ResyncUserDataResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdatePlayerAssets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UN" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdatePlayerAssetsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdatePlayerAssetsResult" type="xs:decimal" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoStockTrade">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ShareTitle" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SharePrice" type="xs:decimal" />
+        <xs:element minOccurs="0" name="ShareAmount" type="xs:int" />
+        <xs:element minOccurs="0" name="TradeType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SharePosition" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DoStockTradeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DoStockTradeResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

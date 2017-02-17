@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderLib", "LuckyTraderLib\LuckyTraderLib.csproj", "{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderClt_Form", "LuckyTraderClt_Form\LuckyTraderClt_Form.csproj", "{FAD85D50-84EF-4E55-8253-9A6E589A2383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTrader_CltForm", "LuckyTrader_CltForm\LuckyTrader_CltForm.csproj", "{9BE92A9A-C983-440D-88DF-8EC804DBDC0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAD85D50-84EF-4E55-8253-9A6E589A2383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD85D50-84EF-4E55-8253-9A6E589A2383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAD85D50-84EF-4E55-8253-9A6E589A2383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD85D50-84EF-4E55-8253-9A6E589A2383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BE92A9A-C983-440D-88DF-8EC804DBDC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BE92A9A-C983-440D-88DF-8EC804DBDC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BE92A9A-C983-440D-88DF-8EC804DBDC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE92A9A-C983-440D-88DF-8EC804DBDC0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -427,6 +427,96 @@ namespace LuckyTraderLib
 
         #endregion
 
+        #region Aktualisierungen wiederkehrend zum Spieler
+        internal decimal DoAssetsUpdate(string uN)
+        {
+            int uID = GetUserID(uN);
+
+            sqlCom = new SqlCommand("SELECT * FROM table_Player_Shares WHERE Reg_User_ID = @uID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlDA = new SqlDataAdapter(sqlCom);
+            sqlCon.Open();
+            sqlDA.Fill(dt = new DataTable());
+            sqlCon.Close();
+
+            decimal assetsSum = 0m;
+            decimal shareSell = 0m;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                shareSell = DoPlayerShareSellUpdate(Convert.ToInt16(row.ItemArray[2]));
+                assetsSum += Convert.ToInt16(row.ItemArray[3]) * shareSell;
+            }
+
+            sqlCom = new SqlCommand("UPDATE table_Players SET Play_Assets = @assets WHERE Play_User_ID = @uID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@assets", assetsSum);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlCon.Open();
+            sqlCom.ExecuteNonQuery();
+            sqlCon.Close();
+
+            return assetsSum;
+        }
+        internal bool DoResyncUserData(string uN, string loc, decimal cash, decimal assets)
+        {
+            int UserID = GetUserID(uN);
+            sqlCom = new SqlCommand("SELECT Play_Cash, Play_Assets FROM table_Players WHERE Play_User_ID = @UserID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@UserID", UserID);
+            sqlCon.Open();
+            sqlDR = sqlCom.ExecuteReader();
+            if (sqlDR.HasRows)
+            {
+                while (sqlDR.Read())
+                {
+                    if (sqlDR.GetDecimal(0) == cash && sqlDR.GetDecimal(1) == assets)
+                        return true;
+                }
+            }
+
+            sqlDR.Close();
+            sqlCon.Close();
+            return false;
+        }
+        private void DoPlayerUpdate(int uID, decimal tradeSum, string tradeType)
+        {
+            decimal cash = 0m;
+            decimal assets = 0m;
+
+            sqlCom = new SqlCommand("SELECT * FROM table_Players WHERE Play_User_ID = @uID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlCon.Open();
+            sqlDR = sqlCom.ExecuteReader();
+            if (sqlDR.HasRows)
+            {
+                while (sqlDR.Read())
+                {
+                    cash = sqlDR.GetDecimal(3);
+                    assets = sqlDR.GetDecimal(4);
+                }
+            }
+            sqlDR.Close();
+
+            if (tradeType == "buy")
+            {
+                cash -= tradeSum;
+                assets += tradeSum;
+            }
+            else
+            {
+                cash += tradeSum;
+                assets -= tradeSum;
+            }
+
+            sqlCom = new SqlCommand("UPDATE table_Players SET Play_Cash = @newCash, Play_Assets = @newAssets WHERE Play_User_ID = @uID", sqlCon);
+            sqlCom.Parameters.AddWithValue("@newCash", cash);
+            sqlCom.Parameters.AddWithValue("@newAssets", assets);
+            sqlCom.Parameters.AddWithValue("@uID", uID);
+            sqlCom.ExecuteNonQuery();
+            sqlCon.Close();
+        }
+
+        #endregion
+
         #region Aktien-Funktionen Spieler
         internal decimal DoStockTrade(string uN, string shareTitle, decimal sharePrice, int shareAmount, string tradeType, int sharePosition)
         {
@@ -492,14 +582,27 @@ namespace LuckyTraderLib
 
             shaAmount -= shareAmount;
 
-            #region Korrigiere neuen Aktienbestand
-            sqlCom = new SqlCommand("UPDATE table_Player_Shares SET Pla_Sha_Amount = @shaAmount WHERE Pla_Sha_ID = @psID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@psID", plashaID);
-            sqlCom.Parameters.AddWithValue("@shaAmount", shaAmount);
-            sqlCon.Open();
-            sqlCom.ExecuteNonQuery();
-            sqlCon.Close();
-            #endregion
+            if (shaAmount == 0)
+            {
+                #region Lösche diesen Aktienbestand vollständig
+                sqlCom = new SqlCommand("DELETE FROM table_Player_Shares WHERE Pla_Sha_ID = @plashaID", sqlCon);
+                sqlCom.Parameters.AddWithValue("@plashaID", plashaID);
+                sqlCon.Open();
+                sqlCom.ExecuteNonQuery();
+                sqlCon.Close();
+                #endregion
+            }
+            else
+            {
+                #region Korrigiere neuen Aktienbestand
+                sqlCom = new SqlCommand("UPDATE table_Player_Shares SET Pla_Sha_Amount = @shaAmount WHERE Pla_Sha_ID = @psID", sqlCon);
+                sqlCom.Parameters.AddWithValue("@psID", plashaID);
+                sqlCom.Parameters.AddWithValue("@shaAmount", shaAmount);
+                sqlCon.Open();
+                sqlCom.ExecuteNonQuery();
+                sqlCon.Close();
+                #endregion
+            }
         }
         private void InsertPlaShaTable(int uID, int sID, int shareAmount, decimal sharePrice)
         {
@@ -513,35 +616,6 @@ namespace LuckyTraderLib
             sqlCon.Open();
             sqlCom.ExecuteNonQuery();
             sqlCon.Close();
-        }
-        internal decimal DoAssetsUpdate(string uN)
-        {
-            int uID = GetUserID(uN);
-
-            sqlCom = new SqlCommand("SELECT * FROM table_Player_Shares WHERE Reg_User_ID = @uID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlDA = new SqlDataAdapter(sqlCom);
-            sqlCon.Open();
-            sqlDA.Fill(dt = new DataTable());
-            sqlCon.Close();
-
-            decimal assetsSum = 0m;
-            decimal shareSell = 0m;
-
-            foreach (DataRow row in dt.Rows)
-            {
-                shareSell = DoPlayerShareSellUpdate(Convert.ToInt16(row.ItemArray[2]));
-                assetsSum += Convert.ToInt16(row.ItemArray[3]) * shareSell;
-            }
-
-            sqlCom = new SqlCommand("UPDATE table_Players SET Play_Assets = @assets WHERE Play_User_ID = @uID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@assets", assetsSum);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCon.Open();
-            sqlCom.ExecuteNonQuery();
-            sqlCon.Close();
-
-            return assetsSum;
         }
         private decimal DoPlayerShareSellUpdate(int sID)
         {
@@ -568,63 +642,6 @@ namespace LuckyTraderLib
 
             return shareSell;
         }
-        private void DoPlayerUpdate(int uID, decimal tradeSum, string tradeType)
-        {
-            decimal cash = 0m;
-            decimal assets = 0m;
-
-            sqlCom = new SqlCommand("SELECT * FROM table_Players WHERE Play_User_ID = @uID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCon.Open();
-            sqlDR = sqlCom.ExecuteReader();
-            if (sqlDR.HasRows)
-            {
-                while (sqlDR.Read())
-                {
-                    cash = sqlDR.GetDecimal(3);
-                    assets = sqlDR.GetDecimal(4);
-                }
-            }
-            sqlDR.Close();
-
-            if (tradeType == "buy")
-            {
-                cash -= tradeSum;
-                assets += tradeSum;
-            }
-            else
-            {
-                cash += tradeSum;
-                assets -= tradeSum;
-            }
-
-            sqlCom = new SqlCommand("UPDATE table_Players SET Play_Cash = @newCash, Play_Assets = @newAssets WHERE Play_User_ID = @uID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@newCash", cash);
-            sqlCom.Parameters.AddWithValue("@newAssets", assets);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCom.ExecuteNonQuery();
-            sqlCon.Close();
-        }
-        internal bool DoResyncUserData(string uN, string loc, decimal cash, decimal assets)
-        {
-            int UserID = GetUserID(uN);
-            sqlCom = new SqlCommand("SELECT Play_Cash, Play_Assets FROM table_Players WHERE Play_User_ID = @UserID", sqlCon);
-            sqlCom.Parameters.AddWithValue("@UserID", UserID);
-            sqlCon.Open();
-            sqlDR = sqlCom.ExecuteReader();
-            if (sqlDR.HasRows)
-            {
-                while (sqlDR.Read())
-                {
-                    if (sqlDR.GetDecimal(0) == cash && sqlDR.GetDecimal(1) == assets)
-                        return true;
-                }
-            }
-
-            sqlDR.Close();
-            sqlCon.Close();
-            return false;
-        }
         private void DoInsertTableUser(int uID, string uLoc, decimal uCash, decimal uAssets)
         {
             sqlCom = new SqlCommand("INSERT INTO table_Players (Play_User_ID, Play_Location, Play_Cash, Play_Assets) " +
@@ -636,8 +653,7 @@ namespace LuckyTraderLib
             sqlCon.Open();
             sqlCom.ExecuteNonQuery();
             sqlCon.Close();
-        }
-
+        }    
         #endregion
     }
 }

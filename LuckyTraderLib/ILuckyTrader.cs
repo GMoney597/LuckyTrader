@@ -61,7 +61,7 @@ namespace LuckyTraderLib
         [OperationContract]
         List<Stock> CheckStock();
 
-        [OperationContract]  //nur zu Testzwecken freizugeben
+        //[OperationContract]  //nur zu Testzwecken freizugeben
         void AutoUpdateStock();
 
         [OperationContract]
