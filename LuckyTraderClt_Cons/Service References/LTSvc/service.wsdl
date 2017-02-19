@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="LuckyTraderService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/LuckyTraderLib" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILuckyTrader_DoRegister_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoRegister" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoRegister_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoLogin" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoLogout_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoLogout" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoLogout_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoLogoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_CheckStock_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckStock" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_CheckStock_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckStockResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_ResyncUserData_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResyncUserData" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_ResyncUserData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResyncUserDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_UpdatePlayerAssets_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePlayerAssets" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_UpdatePlayerAssets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePlayerAssetsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoStockTrade_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoStockTrade" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_DoStockTrade_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoStockTradeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ILuckyTrader">
+    <wsdl:operation name="DoRegister">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/DoRegister" message="tns:ILuckyTrader_DoRegister_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/DoRegisterResponse" message="tns:ILuckyTrader_DoRegister_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/DoLogin" message="tns:ILuckyTrader_DoLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/DoLoginResponse" message="tns:ILuckyTrader_DoLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoLogout">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/DoLogout" message="tns:ILuckyTrader_DoLogout_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/DoLogoutResponse" message="tns:ILuckyTrader_DoLogout_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckStock">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/CheckStock" message="tns:ILuckyTrader_CheckStock_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/CheckStockResponse" message="tns:ILuckyTrader_CheckStock_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResyncUserData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/ResyncUserData" message="tns:ILuckyTrader_ResyncUserData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/ResyncUserDataResponse" message="tns:ILuckyTrader_ResyncUserData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePlayerAssets">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/UpdatePlayerAssets" message="tns:ILuckyTrader_UpdatePlayerAssets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/UpdatePlayerAssetsResponse" message="tns:ILuckyTrader_UpdatePlayerAssets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoStockTrade">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/DoStockTrade" message="tns:ILuckyTrader_DoStockTrade_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/DoStockTradeResponse" message="tns:ILuckyTrader_DoStockTrade_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LT_HTTP_SVC" type="tns:ILuckyTrader">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DoRegister">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/DoRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoLogin">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/DoLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoLogout">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/DoLogout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckStock">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/CheckStock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResyncUserData">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/ResyncUserData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePlayerAssets">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/UpdatePlayerAssets" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoStockTrade">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/DoStockTrade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LuckyTraderService">
+    <wsdl:port name="LT_HTTP_SVC" binding="tns:LT_HTTP_SVC">
+      <soap:address location="http://gamer/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
