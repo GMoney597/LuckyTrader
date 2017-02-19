@@ -33,16 +33,21 @@
             this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stoppenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serverAktivitätenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hostAdresseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.statStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statStripMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.timerStockUpdater = new System.Windows.Forms.Timer(this.components);
             this.timerMessage = new System.Windows.Forms.Timer(this.components);
+            this.rtbInfoScreen = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.statStrip.SuspendLayout();
             this.SuspendLayout();
@@ -73,35 +78,71 @@
             // startenToolStripMenuItem
             // 
             this.startenToolStripMenuItem.Name = "startenToolStripMenuItem";
-            this.startenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.startenToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.startenToolStripMenuItem.Text = "Starten";
             this.startenToolStripMenuItem.Click += new System.EventHandler(this.startenToolStripMenuItem_Click);
             // 
             // stoppenToolStripMenuItem
             // 
             this.stoppenToolStripMenuItem.Name = "stoppenToolStripMenuItem";
-            this.stoppenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.stoppenToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.stoppenToolStripMenuItem.Text = "Stoppen";
             this.stoppenToolStripMenuItem.Click += new System.EventHandler(this.stoppenToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(117, 6);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
             // logFilesToolStripMenuItem
             // 
+            this.logFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.serverAktivitätenToolStripMenuItem});
             this.logFilesToolStripMenuItem.Name = "logFilesToolStripMenuItem";
             this.logFilesToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.logFilesToolStripMenuItem.Text = "Log-Files";
             // 
+            // serverAktivitätenToolStripMenuItem
+            // 
+            this.serverAktivitätenToolStripMenuItem.Name = "serverAktivitätenToolStripMenuItem";
+            this.serverAktivitätenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.serverAktivitätenToolStripMenuItem.Text = "Server-Aktivitäten";
+            this.serverAktivitätenToolStripMenuItem.Click += new System.EventHandler(this.serverAktivitätenToolStripMenuItem_Click);
+            // 
             // hilfeToolStripMenuItem
             // 
+            this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hostAdresseToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.infoToolStripMenuItem});
             this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
             this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.hilfeToolStripMenuItem.Text = "Hilfe";
+            // 
+            // hostAdresseToolStripMenuItem
+            // 
+            this.hostAdresseToolStripMenuItem.Name = "hostAdresseToolStripMenuItem";
+            this.hostAdresseToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.hostAdresseToolStripMenuItem.Text = "Host-Adresse";
+            this.hostAdresseToolStripMenuItem.Click += new System.EventHandler(this.hostAdresseToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(142, 6);
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.infoToolStripMenuItem.Text = "Info";
             // 
             // label1
             // 
@@ -137,11 +178,6 @@
             this.statStripMessage.Size = new System.Drawing.Size(28, 17);
             this.statStripMessage.Text = "###";
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
-            // 
             // timerStockUpdater
             // 
             this.timerStockUpdater.Interval = 300000;
@@ -152,17 +188,27 @@
             this.timerMessage.Interval = 3000;
             this.timerMessage.Tick += new System.EventHandler(this.timerMessage_Tick);
             // 
+            // rtbInfoScreen
+            // 
+            this.rtbInfoScreen.Enabled = false;
+            this.rtbInfoScreen.Font = new System.Drawing.Font("Helonia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbInfoScreen.Location = new System.Drawing.Point(12, 93);
+            this.rtbInfoScreen.Name = "rtbInfoScreen";
+            this.rtbInfoScreen.Size = new System.Drawing.Size(309, 143);
+            this.rtbInfoScreen.TabIndex = 3;
+            this.rtbInfoScreen.Text = "";
+            // 
             // LT_Svc_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(333, 261);
+            this.Controls.Add(this.rtbInfoScreen);
             this.Controls.Add(this.statStrip);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "LT_Svc_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lucky Trader Server";
@@ -191,6 +237,11 @@
         private System.Windows.Forms.ToolStripStatusLabel statStripMessage;
         private System.Windows.Forms.Timer timerStockUpdater;
         private System.Windows.Forms.Timer timerMessage;
+        private System.Windows.Forms.ToolStripMenuItem hostAdresseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox rtbInfoScreen;
+        private System.Windows.Forms.ToolStripMenuItem serverAktivitätenToolStripMenuItem;
     }
 }
 

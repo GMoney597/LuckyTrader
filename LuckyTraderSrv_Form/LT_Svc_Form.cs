@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -96,6 +97,17 @@ namespace LuckyTraderSrv_Form
         {
             timerMessage.Stop();
             statStripMessage.Text = "";
+        }
+
+        private void hostAdresseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rtbInfoScreen.Text = "Dieser Service ist erreichbar unter:\n" + serviceAddress;
+        }
+
+        private void serverAktivitätenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rtbInfoScreen.Text = "Diese Funktion steht noch nicht zur Verfügung";
+            //Process.Start("Editor.exe");
         }
     }
 }
