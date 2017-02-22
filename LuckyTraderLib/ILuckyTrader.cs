@@ -50,10 +50,13 @@ namespace LuckyTraderLib
     public interface ILuckyTrader
     {
         [OperationContract]
+        bool GetServerState();
+
+        [OperationContract]
         int DoRegister(string UN, string PW, string Mail, string FN, string LN, DateTime Birth);
 
         [OperationContract]
-        int DoLogin(string UN, string PW);
+        PlayerClass DoLogin(string UN, string PW);
 
         [OperationContract]
         void DoLogout(int LogID);
@@ -89,4 +92,35 @@ namespace LuckyTraderLib
         [DataMember]
         public decimal shareSell;
     }   
+
+    [DataContract]
+    public class PlayerClass
+    {
+        [DataMember]
+        public string userName;
+
+        [DataMember]
+        public string firstName;
+
+        [DataMember]
+        public string lastName;
+
+        [DataMember]
+        public decimal cash;
+
+        [DataMember]
+        public decimal assets;
+
+        [DataMember]
+        public bool loginSuccess;
+
+        [DataMember]
+        public int loginID;
+
+        [DataMember]
+        public string location;
+
+        [DataMember]
+        public DateTime birthdate;
+    }
 }

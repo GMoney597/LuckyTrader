@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderWinSvc", "LuckyTraderWinSvc\LuckyTraderWinSvc.csproj", "{3C39B7DE-0CD1-4DB0-97F5-42B3688CE141}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LuckyTraderServiceSetup", "LuckyTraderServiceSetup\LuckyTraderServiceSetup.vdproj", "{5F79FE1A-0D4C-44FA-A337-FB65C74614D3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderLib", "LuckyTraderLib\LuckyTraderLib.csproj", "{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderClt_Form", "LuckyTraderClt_Form\LuckyTraderClt_Form.csproj", "{FAD85D50-84EF-4E55-8253-9A6E589A2383}"
@@ -15,6 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C39B7DE-0CD1-4DB0-97F5-42B3688CE141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C39B7DE-0CD1-4DB0-97F5-42B3688CE141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C39B7DE-0CD1-4DB0-97F5-42B3688CE141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C39B7DE-0CD1-4DB0-97F5-42B3688CE141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F79FE1A-0D4C-44FA-A337-FB65C74614D3}.Debug|Any CPU.ActiveCfg = Debug
+		{5F79FE1A-0D4C-44FA-A337-FB65C74614D3}.Debug|Any CPU.Build.0 = Debug
+		{5F79FE1A-0D4C-44FA-A337-FB65C74614D3}.Release|Any CPU.ActiveCfg = Release
+		{5F79FE1A-0D4C-44FA-A337-FB65C74614D3}.Release|Any CPU.Build.0 = Release
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Release|Any CPU.ActiveCfg = Release|Any CPU

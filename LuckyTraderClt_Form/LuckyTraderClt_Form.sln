@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderClt_Form", "LuckyTraderClt_Form.csproj", "{D2956639-9497-4BE4-8870-5497BD688E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderClt_Cons", "..\LuckyTraderClt_Cons\LuckyTraderClt_Cons.csproj", "{F8140746-4712-46D3-8740-420746CBC80B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderLib", "..\LuckyTraderLib\LuckyTraderLib.csproj", "{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyTraderSrv_Form", "..\LuckyTraderSrv_Form\LuckyTraderSrv_Form.csproj", "{0B0B1C36-F452-4EF5-8EDD-697FA4A2616E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2956639-9497-4BE4-8870-5497BD688E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2956639-9497-4BE4-8870-5497BD688E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2956639-9497-4BE4-8870-5497BD688E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2956639-9497-4BE4-8870-5497BD688E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8140746-4712-46D3-8740-420746CBC80B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8140746-4712-46D3-8740-420746CBC80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8140746-4712-46D3-8740-420746CBC80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8140746-4712-46D3-8740-420746CBC80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0B1C36-F452-4EF5-8EDD-697FA4A2616E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0B1C36-F452-4EF5-8EDD-697FA4A2616E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0B1C36-F452-4EF5-8EDD-697FA4A2616E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0B1C36-F452-4EF5-8EDD-697FA4A2616E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
