@@ -9,106 +9,17 @@
 //------------------------------------------------------------------------------
 
 namespace LuckyTraderClt_Cons.LTSvc {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Stock", Namespace="http://schemas.datacontract.org/2004/07/LuckyTraderLib")]
-    [System.SerializableAttribute()]
-    public partial class Stock : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int shareAmountField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private decimal shareBuyField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private decimal shareSellField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string shareTitleField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int shareAmount {
-            get {
-                return this.shareAmountField;
-            }
-            set {
-                if ((this.shareAmountField.Equals(value) != true)) {
-                    this.shareAmountField = value;
-                    this.RaisePropertyChanged("shareAmount");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public decimal shareBuy {
-            get {
-                return this.shareBuyField;
-            }
-            set {
-                if ((this.shareBuyField.Equals(value) != true)) {
-                    this.shareBuyField = value;
-                    this.RaisePropertyChanged("shareBuy");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public decimal shareSell {
-            get {
-                return this.shareSellField;
-            }
-            set {
-                if ((this.shareSellField.Equals(value) != true)) {
-                    this.shareSellField = value;
-                    this.RaisePropertyChanged("shareSell");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string shareTitle {
-            get {
-                return this.shareTitleField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.shareTitleField, value) != true)) {
-                    this.shareTitleField = value;
-                    this.RaisePropertyChanged("shareTitle");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LTSvc.ILuckyTrader")]
     public interface ILuckyTrader {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/GetServerState", ReplyAction="http://tempuri.org/ILuckyTrader/GetServerStateResponse")]
+        bool GetServerState();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/GetServerState", ReplyAction="http://tempuri.org/ILuckyTrader/GetServerStateResponse")]
+        System.Threading.Tasks.Task<bool> GetServerStateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/DoRegister", ReplyAction="http://tempuri.org/ILuckyTrader/DoRegisterResponse")]
         int DoRegister(string UN, string PW, string Mail, string FN, string LN, System.DateTime Birth);
@@ -117,10 +28,10 @@ namespace LuckyTraderClt_Cons.LTSvc {
         System.Threading.Tasks.Task<int> DoRegisterAsync(string UN, string PW, string Mail, string FN, string LN, System.DateTime Birth);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/DoLogin", ReplyAction="http://tempuri.org/ILuckyTrader/DoLoginResponse")]
-        int DoLogin(string UN, string PW);
+        LuckyTraderLib.UserLogin DoLogin(string UN, string PW);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/DoLogin", ReplyAction="http://tempuri.org/ILuckyTrader/DoLoginResponse")]
-        System.Threading.Tasks.Task<int> DoLoginAsync(string UN, string PW);
+        System.Threading.Tasks.Task<LuckyTraderLib.UserLogin> DoLoginAsync(string UN, string PW);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/DoLogout", ReplyAction="http://tempuri.org/ILuckyTrader/DoLogoutResponse")]
         void DoLogout(int LogID);
@@ -129,10 +40,10 @@ namespace LuckyTraderClt_Cons.LTSvc {
         System.Threading.Tasks.Task DoLogoutAsync(int LogID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/CheckStock", ReplyAction="http://tempuri.org/ILuckyTrader/CheckStockResponse")]
-        LuckyTraderClt_Cons.LTSvc.Stock[] CheckStock();
+        LuckyTraderLib.Stock[] CheckStock();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/CheckStock", ReplyAction="http://tempuri.org/ILuckyTrader/CheckStockResponse")]
-        System.Threading.Tasks.Task<LuckyTraderClt_Cons.LTSvc.Stock[]> CheckStockAsync();
+        System.Threading.Tasks.Task<LuckyTraderLib.Stock[]> CheckStockAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILuckyTrader/ResyncUserData", ReplyAction="http://tempuri.org/ILuckyTrader/ResyncUserDataResponse")]
         bool ResyncUserData(string UN, string Loc, decimal Cash, decimal Assets);
@@ -180,6 +91,14 @@ namespace LuckyTraderClt_Cons.LTSvc {
                 base(binding, remoteAddress) {
         }
         
+        public bool GetServerState() {
+            return base.Channel.GetServerState();
+        }
+        
+        public System.Threading.Tasks.Task<bool> GetServerStateAsync() {
+            return base.Channel.GetServerStateAsync();
+        }
+        
         public int DoRegister(string UN, string PW, string Mail, string FN, string LN, System.DateTime Birth) {
             return base.Channel.DoRegister(UN, PW, Mail, FN, LN, Birth);
         }
@@ -188,11 +107,11 @@ namespace LuckyTraderClt_Cons.LTSvc {
             return base.Channel.DoRegisterAsync(UN, PW, Mail, FN, LN, Birth);
         }
         
-        public int DoLogin(string UN, string PW) {
+        public LuckyTraderLib.UserLogin DoLogin(string UN, string PW) {
             return base.Channel.DoLogin(UN, PW);
         }
         
-        public System.Threading.Tasks.Task<int> DoLoginAsync(string UN, string PW) {
+        public System.Threading.Tasks.Task<LuckyTraderLib.UserLogin> DoLoginAsync(string UN, string PW) {
             return base.Channel.DoLoginAsync(UN, PW);
         }
         
@@ -204,11 +123,11 @@ namespace LuckyTraderClt_Cons.LTSvc {
             return base.Channel.DoLogoutAsync(LogID);
         }
         
-        public LuckyTraderClt_Cons.LTSvc.Stock[] CheckStock() {
+        public LuckyTraderLib.Stock[] CheckStock() {
             return base.Channel.CheckStock();
         }
         
-        public System.Threading.Tasks.Task<LuckyTraderClt_Cons.LTSvc.Stock[]> CheckStockAsync() {
+        public System.Threading.Tasks.Task<LuckyTraderLib.Stock[]> CheckStockAsync() {
             return base.Channel.CheckStockAsync();
         }
         

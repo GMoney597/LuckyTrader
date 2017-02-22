@@ -47,7 +47,8 @@
             this.statStripMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerStockUpdater = new System.Windows.Forms.Timer(this.components);
             this.timerMessage = new System.Windows.Forms.Timer(this.components);
-            this.rtbInfoScreen = new System.Windows.Forms.RichTextBox();
+            this.listBoxMessage = new System.Windows.Forms.ListBox();
+            this.pnlService = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.statStrip.SuspendLayout();
             this.SuspendLayout();
@@ -188,22 +189,30 @@
             this.timerMessage.Interval = 3000;
             this.timerMessage.Tick += new System.EventHandler(this.timerMessage_Tick);
             // 
-            // rtbInfoScreen
+            // listBoxMessage
             // 
-            this.rtbInfoScreen.Enabled = false;
-            this.rtbInfoScreen.Font = new System.Drawing.Font("Helonia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbInfoScreen.Location = new System.Drawing.Point(12, 93);
-            this.rtbInfoScreen.Name = "rtbInfoScreen";
-            this.rtbInfoScreen.Size = new System.Drawing.Size(309, 143);
-            this.rtbInfoScreen.TabIndex = 3;
-            this.rtbInfoScreen.Text = "";
+            this.listBoxMessage.Font = new System.Drawing.Font("Meiryo", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxMessage.FormattingEnabled = true;
+            this.listBoxMessage.ItemHeight = 24;
+            this.listBoxMessage.Location = new System.Drawing.Point(6, 93);
+            this.listBoxMessage.Name = "listBoxMessage";
+            this.listBoxMessage.Size = new System.Drawing.Size(325, 148);
+            this.listBoxMessage.TabIndex = 3;
+            // 
+            // pnlService
+            // 
+            this.pnlService.Location = new System.Drawing.Point(311, 70);
+            this.pnlService.Name = "pnlService";
+            this.pnlService.Size = new System.Drawing.Size(20, 20);
+            this.pnlService.TabIndex = 4;
             // 
             // LT_Svc_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(333, 261);
-            this.Controls.Add(this.rtbInfoScreen);
+            this.Controls.Add(this.pnlService);
+            this.Controls.Add(this.listBoxMessage);
             this.Controls.Add(this.statStrip);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
@@ -240,8 +249,9 @@
         private System.Windows.Forms.ToolStripMenuItem hostAdresseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox rtbInfoScreen;
         private System.Windows.Forms.ToolStripMenuItem serverAktivitätenToolStripMenuItem;
+        private System.Windows.Forms.ListBox listBoxMessage;
+        private System.Windows.Forms.Panel pnlService;
     }
 }
 

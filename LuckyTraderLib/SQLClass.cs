@@ -59,6 +59,13 @@ namespace LuckyTraderLib
                 return false;
             }
         }
+
+        internal PlayerClass SQLPlayerData(string uN)
+        {
+            PlayerClass player = new PlayerClass();
+
+        }
+
         private int GetUserID(string uN)
         {
             int UserID = -1;
@@ -110,18 +117,18 @@ namespace LuckyTraderLib
             }
             else if (PW.Length < 8)
             {
-                err.WriteErrorLog("0005", "Passwort ist nicht mindestens 8 Zeichen lang");
-                return 5;
+                err.WriteErrorLog("0004", "Passwort ist nicht mindestens 8 Zeichen lang");
+                return 4;
             }
             else if (Mail.IndexOf('@') < 0)
             {
-                err.WriteErrorLog("0006", "Keine gültige Mail-Adresse angegeben");
-                return 6;
+                err.WriteErrorLog("0005", "Keine gültige Mail-Adresse angegeben");
+                return 5;
             }
             else if (Birth == new DateTime(1970, 01, 01))
             {
-                err.WriteErrorLog("0007", "Ungültiges Datum gewählt");
-                return 7;
+                err.WriteErrorLog("0006", "Ungültiges Datum gewählt");
+                return 6;
             }
             else if (UserAlreadyExists(UN, Mail))
             {
@@ -145,20 +152,46 @@ namespace LuckyTraderLib
                 sqlCom.ExecuteNonQuery();
                 sqlCon.Close();
 
-                PlayerClass pCl = new PlayerClass(UN, FN, LN, Birth);
-                DoInsertTableUser(GetUserID(UN), "", 1000m, 0m);
-
-                log.WriteLogin("0000", "Registrierung von " + UN + " erfolgreich");
-                return 0;
+                if (DoInsertTableUser(GetUserID(UN)))
+                {
+                    log.WriteLogin("0000", "Registrierung von " + UN + " erfolgreich");
+                    return 0;
+                }    
+                else
+                {
+                    err.WriteErrorLog("0007", "Fehler beim Anlegen des Spielers in der Spieler-Tabelle");
+                    return 7;
+                }
             }
             catch (Exception ex)
             {
                 exM.DoWriteExceptionLog(ex);
-                err.WriteErrorLog("9009", "Unbehandelter Fehler - Registrierung ist fehlgeschlagen.");
+                err.WriteErrorLog("9009", "Unbehandelter Fehler - Registrierung ist fehlgeschlagen - siehe Exception-Log");
                 return 9009;
             }
             #endregion
         }
+        private bool DoInsertTableUser(int uID)
+        {
+            try
+            {
+                sqlCom = new SqlCommand("INSERT INTO table_Players (Play_User_ID, Play_Location, Play_Cash, Play_Assets) " +
+                    "VALUES (@uID, @uLoc, @uCash, @uAssets)", sqlCon);
+                sqlCom.Parameters.AddWithValue("@uID", uID);
+                sqlCom.Parameters.AddWithValue("@uLoc", "");
+                sqlCom.Parameters.AddWithValue("@uCash", 1000m);
+                sqlCom.Parameters.AddWithValue("@uAssets", 0m);
+                sqlCon.Open();
+                sqlCom.ExecuteNonQuery();
+                sqlCon.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                exM.DoWriteExceptionLog(ex);
+                return false;
+            }
+        }    
         #endregion
 
         #region Log-Verhalten der Spieler
@@ -176,7 +209,8 @@ namespace LuckyTraderLib
                 {
                     if (row.ItemArray[1].ToString() == pW)
                     {
-                        int playerLogID = DoWriteTableLogin((int)row.ItemArray[0], DateTime.Now);
+                        int uID = GetUserID(row.ItemArray[0].ToString());
+                        int playerLogID = DoWriteTableLogin(uID, DateTime.Now);
                         log.WriteLogin("0010", "User-Login erfolgreich");
                         return playerLogID;
                     }
@@ -206,20 +240,28 @@ namespace LuckyTraderLib
         }
         private int DoWriteTableLogin(int uID, DateTime now)
         {
-            sqlCom = new SqlCommand("INSERT INTO table_Logins (Log_User_ID, Log_DateTime_On) VALUES (@uID, @now)", sqlCon);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCom.Parameters.AddWithValue("@now", now);
-            sqlCon.Open();
-            sqlCom.ExecuteNonQuery();
-            sqlCon.Close();
-            sqlCom = new SqlCommand("SELECT Log_ID FROM table_Logins WHERE Log_User_ID = @uID AND Log_DateTime_On = @now", sqlCon);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCom.Parameters.AddWithValue("@now", now);
-            sqlCon.Open();
-            sqlDA = new SqlDataAdapter(sqlCom);
-            sqlDA.Fill(dt = new DataTable());
-            sqlCon.Close();
-            return Convert.ToInt16(dt.Rows[0].ItemArray[0]);
+            try
+            {
+                sqlCom = new SqlCommand("INSERT INTO table_Logins (Log_User_ID, Log_DateTime_On) VALUES (@uID, @now)", sqlCon);
+                sqlCom.Parameters.AddWithValue("@uID", uID);
+                sqlCom.Parameters.AddWithValue("@now", now);
+                sqlCon.Open();
+                sqlCom.ExecuteNonQuery();
+                sqlCon.Close();
+                sqlCom = new SqlCommand("SELECT Log_ID FROM table_Logins WHERE Log_User_ID = @uID AND Log_DateTime_On = @now", sqlCon);
+                sqlCom.Parameters.AddWithValue("@uID", uID);
+                sqlCom.Parameters.AddWithValue("@now", now);
+                sqlCon.Open();
+                sqlDA = new SqlDataAdapter(sqlCom);
+                sqlDA.Fill(dt = new DataTable());
+                sqlCon.Close();
+                return Convert.ToInt16(dt.Rows[0].ItemArray[0]);
+            }
+            catch (Exception ex)
+            {
+                exM.DoWriteExceptionLog(ex);
+                return 9007;
+            }
         }
         private bool UserAlreadyExists(string uN, string mail)
         {
@@ -285,31 +327,31 @@ namespace LuckyTraderLib
             if (raise && highCounter < 5)
             {
                 shareBuy += shareBuy * percValue;
-                lowCounter--;
+                lowCounter -= 2;
                 highCounter++;
             }
             else if (raise && lowCounter < 5)
             {
                 shareBuy -= shareBuy * percValue;
-                highCounter--;
+                highCounter -= 2;
                 lowCounter++;
             }
             else if (!raise && lowCounter < 5)
             {
                 shareBuy -= shareBuy * percValue;
-                highCounter--;
+                highCounter -= 2;
                 lowCounter++;
             }
             else if (!raise && highCounter < 5)
             {
                 shareBuy += shareBuy * percValue;
-                lowCounter--;
+                lowCounter -= 2;
                 highCounter++;
             }
             else
             {
-                highCounter -= 2;
-                lowCounter -= 2;
+                highCounter -= 3;
+                lowCounter -= 3;
             }
 
             if (highCounter < 0)
@@ -642,18 +684,6 @@ namespace LuckyTraderLib
 
             return shareSell;
         }
-        private void DoInsertTableUser(int uID, string uLoc, decimal uCash, decimal uAssets)
-        {
-            sqlCom = new SqlCommand("INSERT INTO table_Players (Play_User_ID, Play_Location, Play_Cash, Play_Assets) " +
-                "VALUES (@uID, @uLoc,  quCash, @uAssets)", sqlCon);
-            sqlCom.Parameters.AddWithValue("@uID", uID);
-            sqlCom.Parameters.AddWithValue("@uLoc", uLoc);
-            sqlCom.Parameters.AddWithValue("@uCash", uCash);
-            sqlCom.Parameters.AddWithValue("@uAssets", uAssets);
-            sqlCon.Open();
-            sqlCom.ExecuteNonQuery();
-            sqlCon.Close();
-        }    
         #endregion
     }
 }

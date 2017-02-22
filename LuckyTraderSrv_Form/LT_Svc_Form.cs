@@ -24,6 +24,8 @@ namespace LuckyTraderSrv_Form
             InitializeComponent();
             statStripMessage.Text = "";
             ActivateStockUpdater();
+            stoppenToolStripMenuItem.Enabled = false;
+            pnlService.BackColor = Color.Gray;
         }
 
         private void ActivateStockUpdater()
@@ -59,6 +61,8 @@ namespace LuckyTraderSrv_Form
                 svcHost = new ServiceHost(typeof(LuckyTraderService), serviceAddress);
                 svcHost.Open();
                 statStripMessage.Text = "Service running";
+                startenToolStripMenuItem.Enabled = false;
+                stoppenToolStripMenuItem.Enabled = true;
                 timerMessage.Start();
             }
             else
@@ -67,6 +71,7 @@ namespace LuckyTraderSrv_Form
                 statStripMessage.Text = "Service running";
                 timerMessage.Start();
             }
+            pnlService.BackColor = Color.Green;
         }
 
         private void stoppenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -76,6 +81,8 @@ namespace LuckyTraderSrv_Form
                 svcHost.Close();
                 svcHost = null;
                 statStripMessage.Text = "Service stopped";
+                stoppenToolStripMenuItem.Enabled = false;
+                startenToolStripMenuItem.Enabled = true;
                 timerMessage.Start();
             }
             else
@@ -83,6 +90,7 @@ namespace LuckyTraderSrv_Form
                 statStripMessage.Text = "No active service";
                 timerMessage.Start();
             }
+            pnlService.BackColor = Color.Red;
         }
 
         private void timerStockUpdater_Tick(object sender, EventArgs e)
@@ -90,6 +98,7 @@ namespace LuckyTraderSrv_Form
             LuckyTraderService lst = new LuckyTraderService();
             lst.AutoUpdateStock();
             statStripMessage.Text = "Stock Updated";
+            listBoxMessage.Items.Add("\nStock updated at: " + DateTime.Now.ToShortTimeString());
             timerMessage.Start();
         }
 
@@ -101,12 +110,12 @@ namespace LuckyTraderSrv_Form
 
         private void hostAdresseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbInfoScreen.Text = "Dieser Service ist erreichbar unter:\n" + serviceAddress;
+            listBoxMessage.Items.Add("Dieser Service ist erreichbar unter:\n" + serviceAddress);
         }
 
         private void serverAktivitätenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rtbInfoScreen.Text = "Diese Funktion steht noch nicht zur Verfügung";
+            listBoxMessage.Items.Add("Diese Funktion steht noch nicht zur Verfügung");
             //Process.Start("Editor.exe");
         }
     }

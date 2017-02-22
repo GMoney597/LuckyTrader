@@ -7,6 +7,12 @@
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/LuckyTraderLib" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="ILuckyTrader_GetServerState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerState" />
+  </wsdl:message>
+  <wsdl:message name="ILuckyTrader_GetServerState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServerStateResponse" />
+  </wsdl:message>
   <wsdl:message name="ILuckyTrader_DoRegister_InputMessage">
     <wsdl:part name="parameters" element="tns:DoRegister" />
   </wsdl:message>
@@ -50,6 +56,10 @@
     <wsdl:part name="parameters" element="tns:DoStockTradeResponse" />
   </wsdl:message>
   <wsdl:portType name="ILuckyTrader">
+    <wsdl:operation name="GetServerState">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/GetServerState" message="tns:ILuckyTrader_GetServerState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/GetServerStateResponse" message="tns:ILuckyTrader_GetServerState_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="DoRegister">
       <wsdl:input wsaw:Action="http://tempuri.org/ILuckyTrader/DoRegister" message="tns:ILuckyTrader_DoRegister_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILuckyTrader/DoRegisterResponse" message="tns:ILuckyTrader_DoRegister_OutputMessage" />
@@ -81,6 +91,15 @@
   </wsdl:portType>
   <wsdl:binding name="LT_HTTP_SVC" type="tns:ILuckyTrader">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetServerState">
+      <soap:operation soapAction="http://tempuri.org/ILuckyTrader/GetServerState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DoRegister">
       <soap:operation soapAction="http://tempuri.org/ILuckyTrader/DoRegister" style="document" />
       <wsdl:input>

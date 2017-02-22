@@ -36,30 +36,36 @@ namespace LuckyTraderLib
     public class LuckyTraderService : ILuckyTrader
     {
         int register = 9999;
-        int login = 9998;
         Stock stock;
+        PlayerClass uLog;
         List<Stock> stockList = new List<Stock>();
         DataTable dt = new DataTable();
         ExceptionMessage exM = new ExceptionMessage();
 
         // Abgeschlossen
-        public int DoLogin(string UN, string PW)
+        public PlayerClass DoLogin(string UN, string PW)
         {
+            uLog = new PlayerClass();
+            uLog.loginSuccess = false;
+            uLog.loginID = 0;
+
             try
             {
                 SQLClass sqlLog = new SQLClass();
                 if (sqlLog.DoConnectionTest())
                 {
-                    login = sqlLog.SQLLogIn(UN, PW);
-                    return login;
+                    uLog.loginID = sqlLog.SQLLogIn(UN, PW);
+                    uLog.loginSuccess = true;
+                    SQLClass sqlPlayer = new SQLClass();
+                    uLog = sqlPlayer.SQLPlayerData(UN);
+                    return uLog;
                 }
-                else
-                    return 8;
+                return uLog;
             }
             catch (Exception ex)
             {
                 exM.DoWriteExceptionLog(ex);
-                return login;
+                return uLog;
             }
         }
 
@@ -157,6 +163,7 @@ namespace LuckyTraderLib
             }            
         }
 
+        // Abgeschlossen
         private bool CheckSharePrice(string shareTitle, decimal sharePrice, string tradeType)
         {
             bool equal = false;
@@ -168,6 +175,7 @@ namespace LuckyTraderLib
                 return false;
         }
 
+        // Abgeschlossen
         public decimal UpdatePlayerAssets(string UN)
         {
             decimal assets = 0m;
@@ -175,5 +183,12 @@ namespace LuckyTraderLib
             assets = sqlUserAssets.DoAssetsUpdate(UN);
             return assets;
         }
+
+        // Abgeschlossen
+        public bool GetServerState()
+        {
+            return true;
+        }
+
     }
 }

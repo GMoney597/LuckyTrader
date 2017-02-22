@@ -55,9 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Service References\LTSvc\LuckyTraderClt_Cons.LTSvc.Stock.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
+    <None Include="Properties\DataSources\LuckyTraderLib.Stock.datasource" />
+    <None Include="Properties\DataSources\LuckyTraderLib.UserLogin.datasource" />
     <None Include="Service References\LTSvc\LuckyTraderLib.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -86,6 +85,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LuckyTraderLib\LuckyTraderLib.csproj">
+      <Project>{7D099EE5-3D36-4FB2-96FA-8AC9EA590483}</Project>
+      <Name>LuckyTraderLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
